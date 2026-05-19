@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: agency-backend
+spec:
+  selector:
+    app: agency-backend
+  ports:
+  - protocol: TCP
+    port: 5000
+    targetPort: 5000
+  type: ClusterIP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: agency-frontend
+spec:
+  selector:
+    app: agency-frontend
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+  type: LoadBalancer
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: agency-db
+spec:
+  selector:
+    app: agency-db
+  ports:
+  - protocol: TCP
+    port: 5432
+    targetPort: 5432
+  type: ClusterIP

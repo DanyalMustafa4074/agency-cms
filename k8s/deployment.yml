@@ -1,0 +1,75 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: agency-backend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: agency-backend
+  template:
+    metadata:
+      labels:
+        app: agency-backend
+    spec:
+      containers:
+      - name: backend
+        image: danyalmustafa424/agency-backend:latest
+        ports:
+        - containerPort: 5000
+        env:
+        - name: DB_HOST
+          value: "agency-db"
+        - name: DB_NAME
+          value: "agencydb"
+        - name: DB_USER
+          value: "admin"
+        - name: DB_PASS
+          value: "admin123"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: agency-frontend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: agency-frontend
+  template:
+    metadata:
+      labels:
+        app: agency-frontend
+    spec:
+      containers:
+      - name: frontend
+        image: danyalmustafa424/agency-frontend:latest
+        ports:
+        - containerPort: 80
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: agency-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: agency-db
+  template:
+    metadata:
+      labels:
+        app: agency-db
+    spec:
+      containers:
+      - name: db
+        image: postgres:15
+        ports:
+        - containerPort: 5432
+        env:
+        - name: POSTGRES_DB
+          value: "agencydb"
+        - name: POSTGRES_USER
+          value: "admin"
+        - name: POSTGRES_PASSWORD
+          value: "admin123"
